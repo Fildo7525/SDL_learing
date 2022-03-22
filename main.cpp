@@ -1,4 +1,6 @@
 #include "Header.h"
+#include "SDL_events.h"
+#include "SDL_keycode.h"
 #include "paths.h"
 
 int main( int argc, char* args[] )
@@ -20,14 +22,33 @@ int main( int argc, char* args[] )
 		SDL_Event event;
 
 		while (!quit) {
-			if (SDL_PollEvent(&event) != 0)
+			if (SDL_WaitEvent(&event) != 0)
 			{
-				if (event.type == SDL_QUIT)
-				{
+				if (event.type == SDL_QUIT) {
 					quit = true;
 					window.blit(SDLXoutBMP);
 					window.updateWindow();
 					SDL_Delay(1000);
+				}else if (event.type == SDL_KEYDOWN) {
+					KeyPressSurfaces key;
+					switch (event.key.keysym.sym) {
+						case SDLK_LEFT:
+							key = KeyPressSurfaces::LEFT;
+							break;
+						case SDLK_RIGHT:
+							key = KeyPressSurfaces::RIGHT;
+							break;
+						case SDLK_DOWN:
+							key = KeyPressSurfaces::DOWN;
+							break;
+						case SDLK_UP:
+							key = KeyPressSurfaces::UP;
+							break;
+						default:
+							key = KeyPressSurfaces::DEFAULT;
+					}
+					window.changeSurface(key);
+					window.updateWindow();
 				}
 			}
 		}

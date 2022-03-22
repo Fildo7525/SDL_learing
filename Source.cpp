@@ -1,4 +1,6 @@
 #include "Header.h"
+#include "SDL_surface.h"
+#include "paths.h"
 
 SDL_Surface* SDLWindow::getWindowSurface() {
 	return SDL_GetWindowSurface(window);
@@ -8,6 +10,11 @@ void SDLWindow::blit(const std::string& file)
 {
 	SDL_Surface* surfaceToBlit = this->loadBMP(file);
 	SDL_BlitSurface(surfaceToBlit , NULL, currentSurface, NULL );
+}
+
+void SDLWindow::changeSurface(KeyPressSurfaces key)
+{
+	SDL_BlitSurface(screenSurfaces[(int)key], NULL, currentSurface, NULL);
 }
 
 void SDLWindow::fill(const SDL_Rect* rectangle, std::optional<Uint32> color)
@@ -50,6 +57,20 @@ SDLWindow::SDLWindow(const std::string& name)
 			currentSurface = SDL_GetWindowSurface( window );
 		}
 	}
+	//Load default surface
+    screenSurfaces.push_back(loadBMP( SDLPressBMP ));
+
+    //Load up surface
+    screenSurfaces.push_back(loadBMP( SDLUpBMP ));
+
+    //Load down su.push_back(
+    screenSurfaces.push_back(loadBMP( SDLDownBMP ));
+
+    //Load left su.push_back(
+    screenSurfaces.push_back(loadBMP( SDLLeftBMP ));
+
+    //Load right s.push_back(
+    screenSurfaces.push_back(loadBMP( SDLRightBMP ));
 
 }
 

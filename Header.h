@@ -8,14 +8,14 @@
 #include <vector>
 
 //Key press surfaces constants
-enum KeyPressSurfaces
+enum class KeyPressSurfaces
 {
-    KEY_PRESS_SURFACE_DEFAULT,
-    KEY_PRESS_SURFACE_UP,
-    KEY_PRESS_SURFACE_DOWN,
-    KEY_PRESS_SURFACE_LEFT,
-    KEY_PRESS_SURFACE_RIGHT,
-    KEY_PRESS_SURFACE_TOTAL
+    DEFAULT,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    TOTAL
 };
 
 //Screen dimension constants
@@ -33,6 +33,7 @@ public:
 	void updateWindow();
 
 	void blit(const std::string& file);
+	void changeSurface(KeyPressSurfaces key);
 	~SDLWindow();
 
 private:
