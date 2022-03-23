@@ -46,10 +46,19 @@ int main( int argc, char* args[] )
 						case SDLK_UP:
 							key = KeyPressSurfaces::UP;
 							break;
+						case SDLK_s:
+							key = KeyPressSurfaces::STRETCH;
+							break;
 						default:
 							key = KeyPressSurfaces::DEFAULT;
 					}
-					window.changeSurface(key);
+
+					if (key == KeyPressSurfaces::STRETCH) {
+						window.optimalLoad(SDLStretchBMP);
+					} else {
+						window.changeSurface(key);
+					}
+
 					window.updateWindow();
 				}
 			}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SDL_pixels.h"
 #include "SDL_surface.h"
 #include <exception>
 #include <iostream>
@@ -18,6 +19,7 @@ enum class KeyPressSurfaces
     DOWN,
     LEFT,
     RIGHT,
+	STRETCH,
     TOTAL
 };
 
@@ -36,12 +38,14 @@ public:
 	void updateWindow();
 
 	void blit(const std::string& file);
+	void optimalLoad(const std::string& file);
 	void changeSurface(KeyPressSurfaces key);
 	~Window();
 
 private:
 	SDL_Surface* getWindowSurface();
 	SDL_Surface* loadBMP(const std::string& file);
+	SDL_Surface* convert(SDL_Surface* toConvert, const SDL_PixelFormat* windowFormat);
 
 private:
 	SDL_Window *window;

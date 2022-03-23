@@ -7,3 +7,4 @@ static std::string SDLDownBMP = "/home/fildo7525/Desktop/Cpp/sdl/BMP/images/down
 static std::string SDLLeftBMP = "/home/fildo7525/Desktop/Cpp/sdl/BMP/images/left.bmp";
 static std::string SDLRightBMP = "/home/fildo7525/Desktop/Cpp/sdl/BMP/images/right.bmp";
 static std::string SDLPressBMP = "/home/fildo7525/Desktop/Cpp/sdl/BMP/images/press.bmp";
+static std::string SDLStretchBMP = "/home/fildo7525/Desktop/Cpp/sdl/BMP/images/stretch.bmp";

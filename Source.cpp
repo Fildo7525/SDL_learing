@@ -1,4 +1,5 @@
 #include "Header.h"
+#include "SDL_rect.h"
 #include "SDL_surface.h"
 #include "paths.h"
 #include <thread>
@@ -9,8 +10,33 @@ SDL_Surface* sdl::Window::getWindowSurface() {
 
 void sdl::Window::blit(const std::string& file)
 {
-	SDL_Surface* surfaceToBlit = this->loadBMP(file);
-	SDL_BlitSurface(surfaceToBlit , NULL, currentSurface, NULL );
+	try {
+		SDL_Surface* surfaceToBlit = this->loadBMP(file);
+		SDL_BlitSurface(surfaceToBlit , NULL, currentSurface, NULL );
+	}
+	catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
+}
+
+void sdl::Window::optimalLoad(const std::string& file)
+{
+	try {
+		SDL_Surface* surfaceToBlit = loadBMP(file);
+		SDL_Surface* optimisedSurface = nullptr;
+
+		optimisedSurface = SDL_ConvertSurface(surfaceToBlit, currentSurface->format, 0);
+
+		SDL_Rect scretch;
+		scretch.x = 0;
+		scretch.y = 0;
+		scretch.w = SCREEN_WIDTH;
+		scretch.h = SCREEN_HEIGHT;
+		SDL_BlitScaled(surfaceToBlit, NULL, currentSurface, NULL);
+	}
+	catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
 }
 
 void sdl::Window::changeSurface(KeyPressSurfaces key)
@@ -73,6 +99,8 @@ sdl::Window::Window(const std::string& name)
 
     //Load right s.push_back(
     screenSurfaces.push_back(loadBMP( SDLRightBMP ));
+
+	screenSurfaces.push_back(loadBMP( SDLStretchBMP));
 	}).detach();
 	
 }
