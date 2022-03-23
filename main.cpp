@@ -3,11 +3,13 @@
 #include "SDL_keycode.h"
 #include "paths.h"
 
+using sdl::KeyPressSurfaces;
+
 int main( int argc, char* args[] )
 {
 	try {
 		bool quit = false;
-		SDLWindow window("SDL_tutorial");
+		sdl::Window window("SDL_tutorial");
 		//Create window
 		if( !window ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -30,7 +32,7 @@ int main( int argc, char* args[] )
 					window.updateWindow();
 					SDL_Delay(1000);
 				}else if (event.type == SDL_KEYDOWN) {
-					KeyPressSurfaces key;
+					sdl::KeyPressSurfaces key;
 					switch (event.key.keysym.sym) {
 						case SDLK_LEFT:
 							key = KeyPressSurfaces::LEFT;

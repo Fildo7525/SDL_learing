@@ -7,6 +7,9 @@
 #include <optional>
 #include <vector>
 
+
+namespace sdl
+{
 //Key press surfaces constants
 enum class KeyPressSurfaces
 {
@@ -22,19 +25,19 @@ enum class KeyPressSurfaces
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-class SDLWindow
+class Window
 {
 public:
 	operator bool() { return !(window == NULL);}
-	SDLWindow() = default;
-	SDLWindow(const std::string& name);
+	Window() = default;
+	Window(const std::string& name);
 
 	void fill(const SDL_Rect* rectangle = NULL, std::optional<Uint32> color = std::optional<Uint32>());
 	void updateWindow();
 
 	void blit(const std::string& file);
 	void changeSurface(KeyPressSurfaces key);
-	~SDLWindow();
+	~Window();
 
 private:
 	SDL_Surface* getWindowSurface();
@@ -47,4 +50,4 @@ private:
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 };
-
+}

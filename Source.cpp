@@ -1,23 +1,24 @@
 #include "Header.h"
 #include "SDL_surface.h"
 #include "paths.h"
+#include <thread>
 
-SDL_Surface* SDLWindow::getWindowSurface() {
+SDL_Surface* sdl::Window::getWindowSurface() {
 	return SDL_GetWindowSurface(window);
 }
 
-void SDLWindow::blit(const std::string& file)
+void sdl::Window::blit(const std::string& file)
 {
 	SDL_Surface* surfaceToBlit = this->loadBMP(file);
 	SDL_BlitSurface(surfaceToBlit , NULL, currentSurface, NULL );
 }
 
-void SDLWindow::changeSurface(KeyPressSurfaces key)
+void sdl::Window::changeSurface(KeyPressSurfaces key)
 {
 	SDL_BlitSurface(screenSurfaces[(int)key], NULL, currentSurface, NULL);
 }
 
-void SDLWindow::fill(const SDL_Rect* rectangle, std::optional<Uint32> color)
+void sdl::Window::fill(const SDL_Rect* rectangle, std::optional<Uint32> color)
 {
 	currentSurface = getWindowSurface();
 	//Fill the surface white
@@ -25,13 +26,13 @@ void SDLWindow::fill(const SDL_Rect* rectangle, std::optional<Uint32> color)
 	SDL_FillRect( currentSurface, rectangle, local);
 }
 
-void SDLWindow::updateWindow()
+void sdl::Window::updateWindow()
 {
 	SDL_Delay(45);
 	SDL_UpdateWindowSurface(window);
 }
 
-SDL_Surface* SDLWindow::loadBMP(const std::string& file)
+SDL_Surface* sdl::Window::loadBMP(const std::string& file)
 {
 	auto created = SDL_LoadBMP(file.c_str());
 	if( created == NULL) {
@@ -40,7 +41,7 @@ SDL_Surface* SDLWindow::loadBMP(const std::string& file)
 	return created;
 }
 
-SDLWindow::SDLWindow(const std::string& name)
+sdl::Window::Window(const std::string& name)
 {
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -57,6 +58,7 @@ SDLWindow::SDLWindow(const std::string& name)
 			currentSurface = SDL_GetWindowSurface( window );
 		}
 	}
+	std::thread([&]{
 	//Load default surface
     screenSurfaces.push_back(loadBMP( SDLPressBMP ));
 
@@ -71,10 +73,11 @@ SDLWindow::SDLWindow(const std::string& name)
 
     //Load right s.push_back(
     screenSurfaces.push_back(loadBMP( SDLRightBMP ));
-
+	}).detach();
+	
 }
 
-SDLWindow::~SDLWindow()
+sdl::Window::~Window()
 {
 	//Destroy window
 	SDL_DestroyWindow( window );
