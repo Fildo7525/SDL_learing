@@ -9,12 +9,14 @@ int main( int argc, char* args[] )
 {
 	try {
 		bool quit = false;
-		sdl::Window window("SDL_tutorial");
+		sdl::Window window("SDL_tutorial", sdl::Inits::IMG, sdl::IMGType::PNG);
 		//Create window
 		if( !window ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 		} else {
-			window.blit(SDLHelloWorldBMP);
+			// loading PNG as a first picture
+			window.blit(window.loadPNG(SDLLoadedPNG));
+			// window.blit(SDLHelloWorldBMP);
 			window.updateWindow();
 
 			//Wait five seconds
